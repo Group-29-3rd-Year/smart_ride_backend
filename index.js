@@ -24,6 +24,10 @@ app.use("/admin/fares", require("./routes/admin/fares"));
 // crud for routes 
 app.use("/admin/conductors", require("./routes/admin/conductors"));
 
+//CONDUCTOR ROUTES// 
+//register and login
+app.use("/conductor/smartride", require("./routes/conductor/smartride"));
+
 app.listen(5000, () => { 
     console.log("server is running on port 5000");
 });
