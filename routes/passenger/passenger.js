@@ -66,7 +66,7 @@ router.post("/login", async (req, res) => {
       res.json("Error");
     }
     else {
-      res.json(user.rows[0].pid);
+      res.json(user.rows[0]);
     }
     // const userExist = await pool.query(
     //   "SELECT * FROM passenger WHERE email = $1 AND password = $2",
@@ -106,21 +106,30 @@ router.post("/getpid", async (req,res) => {
 });
 
 
-router.post("/getuserdet", async (req,res) => {
-
+router.post("/enterPaymentDetails", async (req, res) => {
   try {
-    const { passengerID } = req.body;
+    const { passengerID, cost, busID } = req.body;
 
-    const uid = await pool.query("SELECT uname,email FROM passenger WHERE pid = $1",
-        [ passengerID ]  
+    var today = new Date();
+    var date =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
+
+    const ride = await pool.query(
+      "INSERT INTO ride_details(passenger_id, cost, bus_id, date) VALUES ($1, $2, $3, $4);",
+      [passengerID, cost, busID, date]
     );
 
-    if (uid.rows.length === 0) {
-      return res.status(401).json("Haven't match passenger for selected pid.");
+    if (ride) {
+      res.json("Success");
+    } else {
+      res.json("Error");
     }
 
-    res.json(uid.rows[0]);
-
+    // res.json(uid.rows[0]);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");
