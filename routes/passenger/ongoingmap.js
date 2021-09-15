@@ -47,4 +47,25 @@ router.post("/updateUserCurrentBus", async(req, res) => {
 }); 
 
 
+router.post("/gettravelcost", async(req,res) => {
+    try {
+        
+        const {distance} = req.body;
+
+        const fare = await pool.query("SELECT fare_price FROM fare WHERE fare_km = $1", 
+            [distance]
+        );
+
+        if(fare) {
+            return res.json(fare.rows[0]['fare_price']);
+        }
+
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server error");
+    }
+});
+
+
 module.exports = router;
