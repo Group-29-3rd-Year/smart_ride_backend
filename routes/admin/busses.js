@@ -56,6 +56,21 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/buscount", async (req, res) => {
+  try {
+    //1. select query for view count of all busses in our database
+    const busses = await pool.query(
+      "SELECT COUNT(bus_id) FROM bus WHERE is_running= '1'"
+    ); 
+    
+
+    res.json(busses.rows[0]['count']);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
 router.get("/singlebus/:bus_id", async (req, res) => {
   try {
     //1. select query for view single bus in our database
