@@ -8,7 +8,7 @@ router.post("/", async(req, res) => {
     const { passengerID } = req.body;
 
       const rides = await pool.query(
-          "SELECT DATE(ride_details.date), ride_details.cost, bus.bus_number FROM ride_details INNER JOIN bus ON ride_details.bus_id=bus.bus_id WHERE passanger_id = $1 ORDER BY ride_id DESC",
+          "SELECT DATE(ride_details.date), ride_details.cost, bus.bus_number FROM ride_details INNER JOIN bus ON ride_details.bus_id=bus.bus_id WHERE passenger_id = $1 ORDER BY ride_id DESC",
           [ passengerID ]
       );
       
