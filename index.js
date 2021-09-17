@@ -24,6 +24,11 @@ app.use("/admin/fares", require("./routes/admin/fares"));
 // crud for routes 
 app.use("/admin/conductors", require("./routes/admin/conductors"));
 
+//stat
+//stat
+app.use("/admin/stat", require("./routes/admin/stat"));
+
+
 //CONDUCTOR ROUTES//////////////////////////////////////////////////////// 
 //register and login
 app.use("/conductor/smartride", require("./routes/conductor/smartride"));
@@ -46,6 +51,7 @@ app.use("/passenger/buslocations", require('./routes/passenger/busLocations'));
 
 //ongoin map
 app.use("/passenger/ongoingmap", require('./routes/passenger/ongoingmap'));
+
 
 
 
