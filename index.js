@@ -33,6 +33,9 @@ app.use("/admin/stat", require("./routes/admin/stat"));
 //register and login
 app.use("/conductor/smartride", require("./routes/conductor/smartride"));
 
+//stat module
+app.use("/conductor/stat", require("./routes/conductor/stat"));
+
 //PASSENEGR ROUTES////////////////////////////////////////////////////////
 //register and login 
 app.use("/passenger/add", require('./routes/passenger/passenger'));
