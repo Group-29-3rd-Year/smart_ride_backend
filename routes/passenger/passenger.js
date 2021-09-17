@@ -4,42 +4,36 @@ const pool = require("../../db");
 const bcrypt = require("bcrypt");
 
 router.post("/register", async (req, res) => {
+  try {
+    const { uname, phone_number, email, password } = req.body;
 
-    try {
-        
-        const { uname, phone_number, email, password } = req.body;
+    const userExist = await pool.query(
+      "SELECT * FROM passenger WHERE email = $1",
+      [email]
+    );
 
-       
-        const userExist = await pool.query(
-          "SELECT * FROM passenger WHERE email = $1",
-          [email]
-        );
+    if (userExist.rows.length !== 0) {
+      return res.status(401).send("Paasenger already exists");
+    } else {
+      // bcrypt the password
+      const saltRound = 10;
+      const salt = await bcrypt.genSalt(saltRound);
 
-        if (userExist.rows.length !== 0) {
-          return res.status(401).send("Paasenger already exists");
-        }
-        else{
-          // bcrypt the password
-          const saltRound = 10;
-          const salt = await bcrypt.genSalt(saltRound);
+      const bcryptPassword = await bcrypt.hash(password, salt);
 
-          const bcryptPassword = await bcrypt.hash(password, salt);
+      const newPassenger = await pool.query(
+        "INSERT INTO passenger (uname, phone_number, email, password, active_bus) VALUES ($1, $2, $3, $4, 0) RETURNING *",
+        [uname, phone_number, email, bcryptPassword]
+      );
 
-          const newPassenger = await pool.query(
-            "INSERT INTO passenger (uname, phone_number, email, password) VALUES ($1, $2, $3, $4) RETURNING *",
-            [uname, phone_number, email, bcryptPassword]
-          );
-
-          if (newPassenger) {
-            res.json("Success");
-          }
-        }
-
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send("Server error");
+      if (newPassenger) {
+        res.json("Success");
+      }
     }
-
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
 });
 
 router.post("/login", async (req, res) => {
@@ -54,18 +48,14 @@ router.post("/login", async (req, res) => {
 
     if (user.rows.length === 0) {
       res.json("Error");
-    } 
+    }
 
     //3. check if incoming password is the same the db password
-    const validPassword = await bcrypt.compare(
-      password,
-      user.rows[0].password
-    );
+    const validPassword = await bcrypt.compare(password, user.rows[0].password);
 
     if (!validPassword) {
       res.json("Error");
-    }
-    else {
+    } else {
       res.json(user.rows[0]);
     }
     // const userExist = await pool.query(
@@ -84,27 +74,26 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("/getpid", async (req,res) => {
-
+router.post("/getpid", async (req, res) => {
   try {
     const { email } = req.body;
 
-    const uid = await pool.query("SELECT pid FROM passenger WHERE email = $1",
-        [ email ]  
-    );
+    const uid = await pool.query("SELECT pid FROM passenger WHERE email = $1", [
+      email,
+    ]);
 
     if (uid.rows.length === 0) {
-      return res.status(401).json("Haven't match passenger for selected email.");
+      return res
+        .status(401)
+        .json("Haven't match passenger for selected email.");
     }
 
     res.json(uid.rows[0]);
-
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");
   }
 });
-
 
 router.post("/enterPaymentDetails", async (req, res) => {
   try {
@@ -123,7 +112,12 @@ router.post("/enterPaymentDetails", async (req, res) => {
       [passengerID, cost, busID, date]
     );
 
-    if (ride) {
+    const update = await pool.query(
+      "UPDATE passenger SET active_bus = 0 WHERE pid = $1",
+      [passengerID]
+    );
+
+    if (ride && update) {
       res.json("Success");
     } else {
       res.json("Error");

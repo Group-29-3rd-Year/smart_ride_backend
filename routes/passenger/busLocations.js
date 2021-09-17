@@ -6,7 +6,7 @@ router.get("/", async (req, res) => {
     try {
       //1. select query for view all locations in our database
       const locations = await pool.query(
-        "SELECT bus_id, bus_number, latitude, longitude FROM bus WHERE is_running='t'"
+        "SELECT bus_id, bus_number, latitude, longitude FROM bus WHERE is_running='t' AND latitude > 0.0 AND longitude > 0.0"
       ); 
       
       //2. check locations in the database
