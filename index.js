@@ -55,6 +55,9 @@ app.use("/passenger/buslocations", require('./routes/passenger/busLocations'));
 //ongoin map
 app.use("/passenger/ongoingmap", require('./routes/passenger/ongoingmap'));
 
+//passengerlist
+app.use("/passenger/passengerlist", require('./routes/passenger/passengerlist'));
+
 
 
 
