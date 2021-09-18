@@ -36,6 +36,9 @@ app.use("/conductor/smartride", require("./routes/conductor/smartride"));
 //stat module
 app.use("/conductor/stat", require("./routes/conductor/stat"));
 
+//passengerlist
+app.use("/conductor/passengerlist", require('./routes/conductor/passengerlist'));
+
 //PASSENEGR ROUTES////////////////////////////////////////////////////////
 //register and login 
 app.use("/passenger/add", require('./routes/passenger/passenger'));
@@ -55,8 +58,7 @@ app.use("/passenger/buslocations", require('./routes/passenger/busLocations'));
 //ongoin map
 app.use("/passenger/ongoingmap", require('./routes/passenger/ongoingmap'));
 
-//passengerlist
-app.use("/passenger/passengerlist", require('./routes/passenger/passengerlist'));
+
 
 
 

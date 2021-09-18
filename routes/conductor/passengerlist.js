@@ -17,7 +17,7 @@ router.post("/getbusid", async (req, res) => {
       return res.status(401).json("No any bus in the database.");
     }
 
-    res.json(bus.rows[0]);
+    res.json(bus.rows[0]['bus_id']);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");
@@ -27,10 +27,10 @@ router.post("/getbusid", async (req, res) => {
 
 router.post("/", async (req, res) => {
     try {
-        const {id} = req.body;
+        const {bus_id} = req.body;
       //1. select query for view all busses in our database
       const passengers = await pool.query(
-        "SELECT pid,uname,phone_number,email FROM passenger WHERE active_bus = $1",[id]
+        "SELECT pid,uname,phone_number,email FROM passenger WHERE active_bus = $1",[bus_id]
       ); 
 
       //2. check conductors in the database
