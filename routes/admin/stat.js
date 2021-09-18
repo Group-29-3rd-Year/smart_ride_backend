@@ -65,4 +65,62 @@ router.get("/buscount", async (req, res) => {
     }
   });
 
+  router.get("/passengercount", async (req,res) => {
+    try {
+        
+       const list = await pool.query("SELECT COUNT(DISTINCT passenger_id) FROM ride_details WHERE date = cast(now() as Date)"
+       );
+
+       res.json(list.rows[0]['count']);
+
+    } catch (err) {
+       console.error(err.message);
+       res.status(500).send("Server error");
+    }   
+  });
+
+  router.get("/haltcount", async (req,res) => {
+    try {
+        
+       const list = await pool.query("SELECT COUNT(halt_id) FROM halt"
+       );
+
+       res.json(list.rows[0]['count']);
+
+    } catch (err) {
+       console.error(err.message);
+       res.status(500).send("Server error");
+    }   
+  });
+
+  router.get("/usercount", async (req,res) => {
+    try {
+        
+       const list = await pool.query("SELECT COUNT(user_id) FROM users"
+       );
+
+       res.json(list.rows[0]['count']);
+
+    } catch (err) {
+       console.error(err.message);
+       res.status(500).send("Server error");
+    }   
+  });
+
+  router.get("/routescount", async (req,res) => {
+    try {
+        
+       const list = await pool.query("SELECT COUNT(DISTINCT route_start) FROM bus WHERE is_running= '1'"
+       );
+
+       res.json(list.rows[0]['count']);
+
+    } catch (err) {
+       console.error(err.message);
+       res.status(500).send("Server error");
+    }   
+  });
+
+
+
   module.exports = router;
