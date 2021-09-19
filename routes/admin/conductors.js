@@ -6,7 +6,7 @@ router.get("/", async (req, res) => {
     try {
       //1. select query for view all busses in our database
       const conductors = await pool.query(
-        "SELECT users.user_id, users.user_name, users.phone_number, users.user_email, bus.bus_number FROM users INNER JOIN bus ON (bus.conductor_id = users.user_id) WHERE users.is_admin = '0';"
+        "SELECT users.user_id, users.user_name, users.phone_number, users.user_email, bus.bus_number FROM users INNER JOIN bus ON (bus.conductor_id = users.user_id) WHERE users.is_admin = '0'"
       ); 
       //console.log(conductors);
       //2. check conductors in the database
@@ -25,7 +25,7 @@ router.get("/two", async (req, res) => {
   try {
     //1. select query for view all busses in our database
     const conductors = await pool.query(
-      "SELECT users.user_id, users.user_name, users.phone_number, users.user_email, bus.bus_number FROM users INNER JOIN bus ON (bus.conductor_id != users.user_id) WHERE users.is_admin = '0';"
+      "SELECT users.user_id, users.user_name, users.phone_number, users.user_email FROM users INNER JOIN bus ON (bus.conductor_id <> users.user_id AND bus.conductor_id != 0) WHERE users.is_admin = '0'"
     ); 
     //console.log(conductors);
     //2. check conductors in the database

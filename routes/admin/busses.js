@@ -41,8 +41,10 @@ router.get("/", async (req, res) => {
   try {
     //1. select query for view all busses in our database
     const busses = await pool.query(
-      "SELECT bus_id, bus_number, route_start, route_end, conductor_id FROM bus WHERE is_running= '1'"
-    ); 
+      "SELECT bus.bus_id, bus.bus_number, bus.route_start, bus.route_end, users.user_name FROM bus INNER JOIN users ON (bus.conductor_id = users.user_id) WHERE is_running= '1'"
+    );
+    
+
     //console.log(busses);
     //2. check busses in the database
     if (busses.rows.length === 0) {
@@ -56,20 +58,29 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/buscount", async (req, res) => {
+
+router.get("/getbusses", async (req, res) => {
   try {
-    //1. select query for view count of all busses in our database
-    const busses = await pool.query(
-      "SELECT COUNT(bus_id) FROM bus WHERE is_running= '1'"
-    ); 
+    //1. select query for view all busses in our database
+    const busses = await pool.query("SELECT bus_id, bus_number, route_start, route_end FROM bus WHERE is_running= '1' AND conductor_id = 0");
     
 
-    res.json(busses.rows[0]['count']);
+    //console.log(busses);
+    //2. check busses in the database
+    if (busses.rows.length === 0) {
+      return res.status(401).json("No any bus in the database.");
+    }
+
+    res.json(busses.rows);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");
   }
 });
+
+
+
+
 
 router.get("/singlebus/:bus_id", async (req, res) => {
   try {

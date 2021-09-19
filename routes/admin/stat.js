@@ -2,6 +2,22 @@ const router = require("express").Router();
 const { response } = require("express");
 const pool = require("../../db");
 
+router.get("/regpascount", async (req, res) => {
+  try {
+    //1. select query for view count of all busses in our database
+    const regpas = await pool.query(
+      "SELECT COUNT(pid) FROM passenger"
+    ); 
+    
+
+    res.json(regpas.rows[0]['count']);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
+
 router.get("/buscount", async (req, res) => {
     try {
       //1. select query for view count of all busses in our database
