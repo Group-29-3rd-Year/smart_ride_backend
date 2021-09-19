@@ -178,4 +178,27 @@ router.post("/getdata", async (req,res) => {
     }
 });
 
+router.put("/updateprofile/:id", async (req,res) => {
+
+  try {
+
+    const { name, number, email } = req.body;
+
+    let id = req.params.id;
+
+    const updateCon = await pool.query(
+      "UPDATE users SET user_name = $1, phone_number = $2, user_email = $3  WHERE user_id = $4",
+      [name, number, email,  id]
+    );
+
+    if (updateCon) {
+      res.json("User updated");
+    }
+    
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
 module.exports = router;

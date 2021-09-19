@@ -62,6 +62,12 @@ router.post("/login", validInfo, async (req, res) => {
       return res.status(401).json("Email or Password is incorrect");
     }
 
+    const userHasBus = await pool.query("SELECT * FROM bus WHERE conductor_id = $1", [ user.rows[0]['user_id'] ]);
+
+    if(userHasBus.rows.length === 0) {
+      return res.status(401).json("Not Assigned to bus");
+    }
+
     //3. check if incoming password is the same the db password
 
     const validPassword = await bcrypt.compare(
@@ -157,6 +163,30 @@ router.post("/getdata", async (req,res) => {
     console.error(err.message);
     res.status(500).send("Server error");
   }
+});
+
+
+router.put("/updateprofile/:id", async (req,res) => {
+
+    try {
+
+      const { name, number, email } = req.body;
+
+      let id = req.params.id;
+
+      const updateCon = await pool.query(
+        "UPDATE users SET user_name = $1, phone_number = $2, user_email = $3  WHERE user_id = $4",
+        [name, number, email,  id]
+      );
+
+      if (updateCon) {
+        res.json("User updated");
+      }
+      
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server error");
+    }
 });
 
 module.exports=router;
