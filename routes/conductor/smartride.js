@@ -137,4 +137,26 @@ router.put("/update/:conductor_id", async (req, res) => {
   }
 });
 
+
+router.post("/getdata", async (req,res) => {
+
+  try {
+
+    const { id } = req.body;
+
+    const user = await pool.query("SELECT * FROM users WHERE user_id = $1", [id]);
+
+    if (user.rows.length == 0) {
+      res.json("Data not available");
+    }
+
+    res.json(user.rows[0]);
+
+    
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
 module.exports=router;
