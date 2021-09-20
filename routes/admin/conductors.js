@@ -105,4 +105,45 @@ router.put("/update/:con_id", async (req, res) => {
 });
 
 
+router.put("/deleteassign/:con_id", async (req,res) => {
+
+    try {
+
+      let id = req.params.con_id;
+
+      const deleteConUser = await pool.query("DELETE FROM users WHERE user_id = $1", [id]);
+
+      const deleteConBus = await pool.query("UPDATE bus SET conductor_id = 0 WHERE conductor_id = $1", [id]);
+
+      if(deleteConBus && deleteConUser) {
+        res.json("Conductor was deleted");
+      }
+      
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server error");
+    }
+});
+
+
+router.put("/deletenotassign/:con_id", async (req,res) => {
+
+  try {
+
+    let id = req.params.con_id;
+
+    const deleteConUser = await pool.query("DELETE FROM users WHERE user_id = $1", [id]);
+
+
+    if(deleteConUser) {
+      res.json("Conductor was deleted");
+    }
+    
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
+
 module.exports = router;
