@@ -79,6 +79,26 @@ router.get("/previousincome", async (req,res) => {
       console.error(err.message);
       res.status(500).send("Server Error.");
    }
+});
+
+router.post("/paidlist", async (req,res) => {
+
+   try {
+      const{bus_id} = req.body;
+
+      const list = await pool.query("SELECT ride_details.ride_id, passenger.uname, passenger.email, passenger.phone_number, ride_details.cost from ride_details INNER JOIN passenger ON (ride_details.passenger_id = passenger.pid) WHERE ride_details.bus_id = $1 AND ride_details.date = cast(now() as Date) ORDER BY ride_details.ride_id DESC", [bus_id]);
+
+      if(list.rows.length === 0 ) {
+         return res.status(401).json("List not found");
+      }
+
+      res.json(list.rows);
+
+
+   } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error.");
+   }
 })
 
 module.exports=router;
