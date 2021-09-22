@@ -70,11 +70,11 @@ router.get("/buscount", async (req, res) => {
 
       const todayincome = await pool.query(
           
-        "SELECT cost FROM ride_details WHERE date = cast(now() as Date)"
+        "SELECT SUM(cost) FROM ride_details WHERE date = cast(now() as Date)"
       ); 
       
   
-      res.json(todayincome.rows[0]["cost"]);
+      res.json(todayincome.rows[0]['sum']);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server error");
