@@ -30,7 +30,7 @@ router.post("/", async (req, res) => {
         const {bus_id} = req.body;
       //1. select query for view all busses in our database
       const passengers = await pool.query(
-        "SELECT pid,uname,phone_number,email FROM passenger WHERE active_bus = $1",[bus_id]
+        "SELECT pid,uname,phone_number,email FROM passenger WHERE active_bus = $1 ORDER BY pid DESC",[bus_id]
       ); 
 
       //2. check conductors in the database
