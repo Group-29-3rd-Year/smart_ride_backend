@@ -64,6 +64,6 @@ app.use("/passenger/ongoingmap", require('./routes/passenger/ongoingmap'));
 PORT = 5000;
 
 
-app.listen(process.env.PORT | PORT, () => { 
+app.listen(process.env.PORT || PORT, () => { 
     console.log(`server is running on port ${PORT}`);
 });
