@@ -1,6 +1,7 @@
 const express = require("express");
 const app =  express();
 const cors = require("cors");
+require("dotenv").config();
   
 app.use(express.json());
 app.use(cors());
@@ -60,9 +61,9 @@ app.use("/passenger/ongoingmap", require('./routes/passenger/ongoingmap'));
 
 
 
+PORT = 5000;
 
 
-
-app.listen(5000, () => { 
-    console.log("server is running on port 5000");
+app.listen(process.env.PORT | PORT, () => { 
+    console.log(`server is running on port ${PORT}`);
 });
