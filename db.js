@@ -8,5 +8,13 @@ const pool = new Pool({
   database: "d2qu6dvt42fsor",
 });
 
+// const pool = new Pool({
+//   user: "postgres",
+//   password: "janith12345",
+//   host: "localhost",
+//   port: 5432,
+//   database: "smartride",
+// });
+
 module.exports = pool;
 
