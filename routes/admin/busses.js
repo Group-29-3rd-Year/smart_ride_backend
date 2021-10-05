@@ -48,7 +48,8 @@ router.get("/", async (req, res) => {
     //console.log(busses);
     //2. check busses in the database
     if (busses.rows.length === 0) {
-      return res.status(401).json("No any bus in the database.");
+      //return res.status(401).json("No any bus in the database.");
+      console.log('No any bus in the database.');
     }
 
     res.json(busses.rows);
@@ -68,7 +69,8 @@ router.get("/getbusses", async (req, res) => {
     //console.log(busses);
     //2. check busses in the database
     if (busses.rows.length === 0) {
-      return res.status(401).json("No any bus in the database.");
+      //return res.status(401).json("No any bus in the database.");
+      console.log('No any bus in the database.');
     }
 
     res.json(busses.rows);
@@ -94,7 +96,8 @@ router.get("/singlebus/:bus_id", async (req, res) => {
     //console.log(busses); 
     //2. check busses in the database
     if (busses.rows.length === 0) {
-      return res.status(401).json("No any bus in the database.");
+      //return res.status(401).json("No any bus in the database.");
+      console.log('No any bus in the database.');
     }
 
     res.json(busses.rows);
@@ -154,7 +157,8 @@ router.get("/getbuscoor", async (req, res) => {
     //console.log(busses);
     //2. check busses in the database
     if (busses.rows.length === 0) {
-      return res.status(401).json("No any bus in the database.");
+      //return res.status(401).json("No any bus in the database.");
+      console.log('No any bus in the database.');
     }
 
     res.json(busses.rows);

@@ -39,7 +39,8 @@ router.get("/", async (req, res) => {
 
     //2. check busses in the database
     if (halts.rows.length === 0) {
-      return res.status(401).json("No any halts in the database.");
+      //return res.status(401).json("No any halts in the database.");
+      console.log('No any halts in the database.');
     }
 
     res.json(halts.rows);
@@ -62,7 +63,8 @@ router.get("/:halt_id", async (req, res) => {
 
     //2. check busses in the database
     if (halt.rows.length === 0) {
-      return res.status(401).json("Haven't match halt for selected bus.");
+      //return res.status(401).json("Haven't match halt for selected bus.");
+      console.log('Haven\'t match halt for selected bus.');
     }
 
     res.json(halt.rows);

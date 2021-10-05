@@ -35,7 +35,8 @@ router.post("/", async (req, res) => {
 
       //2. check conductors in the database
       if (passengers.rows.length === 0) {
-        return res.status(401).json("No any passengers in the database.");
+        //return res.status(401).json("No any passengers in the database.");
+        console.log('No any passengers in the database.');
       }
   
       res.json(passengers.rows);

@@ -11,7 +11,8 @@ router.get("/", async (req, res) => {
       //console.log(conductors);
       //2. check conductors in the database
       if (conductors.rows.length === 0) {
-        return res.status(401).json("No any conductors in the database.");
+        //return res.status(401).json("No any conductors in the database.");
+        console.log('No any conductors in the database.');
       }
   
       res.json(conductors.rows);
@@ -30,7 +31,8 @@ router.get("/two", async (req, res) => {
     //console.log(conductors);
     //2. check conductors in the database
     if (conductors.rows.length === 0) {
-      return res.status(401).json("No any conductors in the database.");
+      //return res.status(401).json("No any conductors in the database.");
+      console.log('No any conductors in the database.');
     }
 
     res.json(conductors.rows);
@@ -49,7 +51,8 @@ router.get("/getbusses", async (req, res) => {
     //console.log(conductors);
     //2. check conductors in the database
     if (busses.rows.length === 0) {
-      return res.status(401).json("No any busses in the database.");
+      //return res.status(401).json("No any busses in the database.");
+      console.log('No any busses in the database.');
     }
 
     res.json(busses.rows);
@@ -71,7 +74,8 @@ router.get("/getsinglecon/:con_id", async (req, res) => {
     //console.log(conductors);
     //2. check conductors in the database
     if (conductor.rows.length === 0) {
-      return res.status(401).json("No conductor in the database.");
+      //return res.status(401).json("No conductor in the database.");
+      console.log('No conductor in the database.');
     }
 
     res.json(conductor.rows);
