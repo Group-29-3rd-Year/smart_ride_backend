@@ -46,7 +46,8 @@ router.get("/", async (req, res) => {
     //console.log(busses);
     //2. check fares in the database
     if (fares.rows.length === 0) {
-      return res.status(401).json("No any fare in the database.");
+      //return res.status(401).json("No any fare in the database.");
+      console.log('No any fare in the database.');
     }
 
     res.json(fares.rows);
@@ -67,7 +68,8 @@ router.get("/getsinglefare/:fare_id", async (req, res) => {
      
     //2. check fares in the database
     if (fares.rows.length === 0) {
-      return res.status(401).json("No any fare in the database.");
+      //return res.status(401).json("No any fare in the database.");
+      console.log('No any fare in the database.');
     }
 
     res.json(fares.rows);
