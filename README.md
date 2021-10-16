@@ -1,4 +1,5 @@
 # smart_ride_backend
+welcome 2021 hacktoberfest.
 Backend for web and mobile application
 
 Group 29<br>
